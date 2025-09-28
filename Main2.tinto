@@ -1,0 +1,8 @@
+Gramatica ::= GramaticaPrima;
+GramaticaPrima ::= Definicion GramaticaPrima | ;
+Definicion ::= <NOTERMINAL> <EQ> ListaReglas <SEMICOLON>;
+ListaReglas ::= Regla ListaReglasPrima;
+
+ListaReglasPrima::=<BAR> Regla ListaReglasPrima|;
+Regla ::= Simbolo Regla|;
+Simbolo::=<NOTERMINAL>|<TERMINAL>;
