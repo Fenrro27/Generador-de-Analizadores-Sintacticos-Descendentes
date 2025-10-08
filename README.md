@@ -1,4 +1,4 @@
-# Generador-de-Analizadores-Sint-cticos-Descendentes (SLR) en Java
+# Generador-de-Analizadores-Sintácticos-Descendentes (SLR) en Java
 
 Este repositorio contiene una implementación **manual** de un analizador sintáctico ascendente tipo **SLR (Simple LR)**, construido a partir de una gramática formal expresada en notación **BNF**. El proyecto está desarrollado en el contexto de la asignatura **Procesadores de Lenguajes** de la Universidad de Huelva, tomando como referencia el material y el código del profesor **Francisco José Moreno Velo**.
 
