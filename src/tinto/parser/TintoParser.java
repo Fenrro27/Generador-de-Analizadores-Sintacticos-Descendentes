@@ -42,6 +42,10 @@ public class TintoParser implements TokenConstants {
 	ArrayList<Token> parteDerRegla = new ArrayList<>();
 	ArrayList<Token> parteIzqRegla = new ArrayList<>();
 
+	public int getErrorCount() {
+		return errorCount;
+	}
+
 	public Exception getError() {
 		return new Exception("NErrores: " + errorCount + ":\n" + errorMsg);
 	}
@@ -99,39 +103,38 @@ public class TintoParser implements TokenConstants {
 		this.nextToken = lexer.getNextToken();
 		nodoRaiz = tryGramatica();
 		if (nextToken.getKind() == EOF)
-			if(VerifyNoterminal()) return true;
-			else return false;
+			if (VerifyNoterminal())
+				return true;
+			else
+				return false;
 		else
 			return false;
 	}
-
 
 	/**
 	 * 
 	 * @return
 	 */
 	private boolean VerifyNoterminal() {
-    // Set con los lexemas de los no terminales definidos
-    Set<String> definidos = new HashSet<>();
-    for (Token t : parteIzqRegla) {
-        definidos.add(t.getLexeme());
-    }
+		// Set con los lexemas de los no terminales definidos
+		Set<String> definidos = new HashSet<>();
+		for (Token t : parteIzqRegla) {
+			definidos.add(t.getLexeme());
+		}
 
-    boolean ok = true;
+		boolean ok = true;
 
-    // Revisar los no terminales usados en la derecha
-    for (Token t : parteDerRegla) {
-        if (!definidos.contains(t.getLexeme())) {
-            int errorcode = SemanticException.UNDEFINED_NONTERMINAL_EXCEPTION;
-            catchError(new SemanticException(errorcode, t));
-            ok = false;
-        }
-    }
+		// Revisar los no terminales usados en la derecha
+		for (Token t : parteDerRegla) {
+			if (!definidos.contains(t.getLexeme())) {
+				int errorcode = SemanticException.UNDEFINED_NONTERMINAL_EXCEPTION;
+				catchError(new SemanticException(errorcode, t));
+				ok = false;
+			}
+		}
 
-    return ok;
-}
-
-
+		return ok;
+	}
 
 	/**
 	 * M�todo que consume un token de la cadena de entrada
@@ -254,7 +257,7 @@ public class TintoParser implements TokenConstants {
 	private ArrayList<NodoRegla> parseListaReglas() throws SintaxException {
 		ArrayList<NodoRegla> anr = new ArrayList<>();
 
-		int[] expected = { TERMINAL, NOTERMINAL,BAR, SEMICOLON };
+		int[] expected = { TERMINAL, NOTERMINAL, BAR, SEMICOLON };
 		switch (nextToken.getKind()) {
 			case TERMINAL:
 			case NOTERMINAL:

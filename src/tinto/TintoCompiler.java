@@ -80,6 +80,11 @@ public class TintoCompiler {
 
 			TintoParser parser = new TintoParser();
 			boolean correcto = parser.parse(mainfile); // Iniciamos el parser
+			if (parser.getErrorCount() > 0) {
+				printOutput(workingdir, "Incorrecto");
+				printError(workingdir, parser.getError());
+				correcto = false;
+			}
 
 			if (correcto) {
 
