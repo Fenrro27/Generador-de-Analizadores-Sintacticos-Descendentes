@@ -1,16 +1,28 @@
-<project name="Tinto" default="dist" basedir=".">
-  <description>  build file for Tinto compiler </description>
-	
-  <target name="dist" description="generate the distribution" >
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TintoCompiler" default="jar" basedir=".">
+  <description>Build file for Tinto Compiler</description>
 
+  <!-- 📂 Propiedades -->
+  <property name="src.dir" value="src"/>
+  <property name="build.dir" value="bin"/>
+  <property name="jar.file" value="TintoCompiler.jar"/>
+  <property name="manifest.file" value="MANIFEST.MF"/>
 
-    <!-- Put everything in /bin into the tintoc.jar file -->
-    <jar jarfile="tintoc.jar" 
-         manifest="TintoManifest.mf"
-         basedir="bin" />
-
-
+  <!-- 🧹 Limpiar compilaciones previas -->
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <mkdir dir="${build.dir}"/>
   </target>
 
+  <!-- 🏗️ Compilar todo el código fuente -->
+  <target name="compile" depends="clean">
+    <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false"/>
+  </target>
+
+  <!-- 📦 Generar el .jar ejecutable -->
+  <target name="jar" depends="compile" description="Empaqueta todo en un .jar">
+    <jar destfile="${jar.file}" basedir="${build.dir}" manifest="${manifest.file}"/>
+    <echo>✅ JAR generado correctamente: ${jar.file}</echo>
+  </target>
 
 </project>
