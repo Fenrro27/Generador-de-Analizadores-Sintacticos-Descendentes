@@ -70,12 +70,14 @@ public class TintoCompiler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Busca el directorio de trabajo
-		String path = (args.length == 0 ? System.getProperty("user.dir") : args[0]);
-		File workingdir = new File(path);
+		// El directorio de trabajo es siempre donde se ejecuta el programa
+		File workingdir = new File(System.getProperty("user.dir"));
 
 		try {
-			File mainfile = new File(workingdir, "Main.tinto");
+			// Nombre del archivo de entrada (.tinto)
+			String filename = (args.length > 0 ? args[0] : "Main.tinto");
+			File mainfile = new File(workingdir, filename);
+
 			TintoParser parser = new TintoParser();
 			boolean correcto = parser.parse(mainfile); // Iniciamos el parser
 
@@ -102,9 +104,13 @@ public class TintoCompiler {
 				System.out.println(slr);
 
 				GeneradorClases generador = new GeneradorClases(ng, automata, slr);
-				generador.generarClases("src/tinto/Output");
 
-				System.out.println("✅ Clases generadas en src/Output");
+				// Crear el directorio de salida "Output" en el directorio de ejecución
+				File outputDir = new File(workingdir, "Output");
+				if (!outputDir.exists())
+					outputDir.mkdirs();
+				generador.generarClases(outputDir.getPath());
+				System.out.println("✅ Clases generadas en " + outputDir.getAbsolutePath());
 
 				printOutput(workingdir, "Correcto");
 			} else {

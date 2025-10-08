@@ -2,6 +2,7 @@ package tinto.SLR;
 
 import java.util.*;
 import tinto.ast.*;
+import tinto.parser.SemanticException;
 
 public class AutomataLR {
 
@@ -195,7 +196,7 @@ public class AutomataLR {
         return sb.toString();
     }
 
-    public TablaSLR construirTablaSLR(Map<String, Set<String>> follow) {
+    public TablaSLR construirTablaSLR(Map<String, Set<String>> follow)  throws SemanticException {
         List<String> terminalesOrdenados = new ArrayList<>(getTerminales());
         Collections.sort(terminalesOrdenados);
         List<String> noTerminalesOrdenados = new ArrayList<>(getNoTerminales());

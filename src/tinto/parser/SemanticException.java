@@ -70,6 +70,8 @@ public class SemanticException extends Exception {
 	
 	/** Error: no terminal usado en la derecha no está definido en la izquierda */
 	public static final int UNDEFINED_NONTERMINAL_EXCEPTION = 1;
+    /** Error: conflicto SLR (shift/reduce o reduce/reduce) detectado */
+    public static final int CONFLICT_SLR_EXCEPTION = 2;
 
 	// ----------------------------------------------------------------//
 	// Miembros privados //
@@ -95,6 +97,18 @@ public class SemanticException extends Exception {
 		msg += ", column " + token.getColumn() + ".\n";
 		msg += getExplanationForCode(code, token) + "\n";
 	}
+
+
+	
+    /**
+     * Constructor genérico sin token (para conflictos de tabla SLR)
+     * 
+     * @param code   tipo de error
+     * @param detail descripción adicional del conflicto
+     */
+    public SemanticException(int code, String detail) {
+        this.msg = "Semantic exception: " + getExplanationForCode(code, detail);
+    }
 
 	// ----------------------------------------------------------------//
 	// M�todos p�blicos //
@@ -122,4 +136,25 @@ public class SemanticException extends Exception {
 				return "";
 		}
 	}
+
+	/**
+     * Obtiene la descripción del error en función del código.
+     * 
+     * @param code  tipo de error
+     * @param token o texto adicional
+     * @return descripción del error
+     */
+    private static String getExplanationForCode(int code, Object info) {
+        switch (code) {
+            case UNDEFINED_NONTERMINAL_EXCEPTION:
+                Token t = (Token) info;
+                return "  Undefined non-terminal: '" + t.getLexeme() + "'";
+
+            case CONFLICT_SLR_EXCEPTION:
+                return "  Conflict detected in SLR table: " + info;
+
+            default:
+                return "  Unknown semantic error.";
+        }
+    }
 }

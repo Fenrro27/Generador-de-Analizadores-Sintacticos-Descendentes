@@ -50,7 +50,7 @@ public class GeneradorClases {
 
         // Generamos el fichero
         try (FileWriter fw = new FileWriter(ruta + "/TokenConstants.java")) {
-            fw.write("package tinto.Output;\n\n");
+            fw.write("package Output;\n\n");
             fw.write("public interface TokenConstants {\n\n");
             fw.write("\tpublic int EOF = 0;\n");
             int index = 1;
@@ -65,7 +65,7 @@ public class GeneradorClases {
 
     private void generarSymbolConstants(String ruta) throws IOException {
         try (FileWriter fw = new FileWriter(ruta + "/SymbolConstants.java")) {
-            fw.write("package tinto.Output;\n\n");
+            fw.write("package Output;\n\n");
             fw.write("public interface SymbolConstants {\n\n");
 
             int index = 0;
@@ -84,7 +84,8 @@ public class GeneradorClases {
         Set<String> noterminales = automata.getNoTerminales();
 
         try (FileWriter fw = new FileWriter(ruta + "/Parser.java")) {
-            fw.write("package tinto.Output;\n\n");
+            fw.write("package Output;\n\n");
+            fw.write("// Los metodos del paquete auxiliares son los correspondientes a Francisco Jose Moreno Velo\n");
             fw.write("import auxiliares.ActionElement;\n");
             fw.write("import auxiliares.SLRParser;\n\n");
 
